@@ -20,9 +20,7 @@ typedef struct{
 	uint32_t tot_cols;
 }SpVM;
 
-void skip_line(FILE* mtx_file);
-float* parse_line(FILE* mtx_file,char read_ch);
-SpVM import_spvm(char* mtx_name);
-char parse_header(SpVM* out_spvm,FILE* mtx_file);
+float retrieve_spvm_cell(SpVM input_spvm, size_t sel_row,size_t sel_col);
+float* coo_mult(SpVM input_spvm,float* input_vec);
 
 #endif
