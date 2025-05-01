@@ -1,5 +1,5 @@
-#ifndef __SPVM_H__
-#define __SPVM_H__
+#ifndef __SPMV_H__
+#define __SPMV_H__
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -19,10 +19,10 @@ typedef struct{
 	uint32_t dim;
 	uint32_t tot_rows;
 	uint32_t tot_cols;
-}SpVM;
+}SpM;
 
-void sort(SpVM* input_spvm);
-void get_csr_repr(SpVM* input_spvm);
-double* csr_mult(SpVM input_spvm,double* input_vec);
+void sort(SpM* input_spm);
+void get_csr_repr(SpM* input_spm);
+double* csr_mult(SpM input_spm,double* input_vec);
 
 #endif

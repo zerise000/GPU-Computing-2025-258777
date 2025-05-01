@@ -1,6 +1,6 @@
 CC=gcc
 SRC=src
-OUT=SpVM
+OUT=SpMV
 WFLAGS=-Wall -Wextra -Wpedantic -g
 
 all: $(OUT)

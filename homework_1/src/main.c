@@ -10,11 +10,14 @@ int main(int argc,char** argv){
 	}
 
 	char* mtx_name = argv[1];
-	SpVM input_spvm = import_spvm(mtx_name);
+	SpM input_spm = import_spm(mtx_name);
 
-  double* input_vec = gen_random_vec(input_spvm.tot_cols);
-	get_csr_repr(&input_spvm);	
-	double* res2 = csr_mult(input_spvm,input_vec); 
+  double* input_vec = gen_random_vec(input_spm.tot_cols);
+	get_csr_repr(&input_spm);	
+	double* res2 = csr_mult(input_spm,input_vec); 
+
+	for(size_t i=0; i<input_spm.tot_rows; i++)
+		fprintf(stdout,"%f\n",res2[i]);
 
 	free(res2);
 	free(input_vec);

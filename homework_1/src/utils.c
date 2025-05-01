@@ -49,7 +49,7 @@ double* parse_line(FILE* mtx_file,char read_ch){
 	return numbers; 
 }
 
-void parse_header(SpVM* out_spvm,FILE* mtx_file){
+void parse_header(SpM* out_spm,FILE* mtx_file){
 	char iter_ch;
 
 	for(iter_ch = fgetc(mtx_file); iter_ch == '%'; iter_ch = fgetc(mtx_file))
@@ -57,18 +57,18 @@ void parse_header(SpVM* out_spvm,FILE* mtx_file){
 
 	double* dim_info = parse_line(mtx_file,iter_ch);
 
-	out_spvm->tot_rows = (uint32_t)dim_info[0];
-	out_spvm->tot_cols = (uint32_t)dim_info[1];
-	out_spvm->dim = (uint32_t)dim_info[2];
+	out_spm->tot_rows = (uint32_t)dim_info[0];
+	out_spm->tot_cols = (uint32_t)dim_info[1];
+	out_spm->dim = (uint32_t)dim_info[2];
 
 	free(dim_info);
 
 }
 
-SpVM import_spvm(char* mtx_name){
+SpM import_spm(char* mtx_name){
 
 	FILE* mtx_file =fopen(mtx_name,"r");
-	SpVM out;
+	SpM out;
 
 	//parse header, then return next character
 	parse_header(&out,mtx_file);
