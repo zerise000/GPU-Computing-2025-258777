@@ -1,13 +1,10 @@
 #include "utils.h"
 
-float* gen_random_vec(uint32_t dim){
-  float* vec = (float*)malloc(dim*sizeof(float));
+double* gen_random_vec(uint32_t dim){
+  double* vec = (double*)malloc(dim*sizeof(double));
 
   for(size_t i = 0; i < dim; i++){
-    vec[i] = (float)rand()*(2000/(float)RAND_MAX);
-
-    if(vec[i] - (float)RAND_MAX < 10e-3)
-      vec[i] /= 2.0;
+    vec[i] = 2000*((double)rand()/(double)RAND_MAX);
   }
   
   return vec;
@@ -21,19 +18,19 @@ void skip_line(FILE* mtx_file){
 	}while(skip_chr != EOF && skip_chr != '\n');
 }
 
-float* parse_line(FILE* mtx_file,char read_ch){
+double* parse_line(FILE* mtx_file,char read_ch){
 
 	char line_chr = read_ch;
 
 	uint32_t index = 0;
 	uint32_t parse_state = 0;
 	char tmp[CHR_MAX];
-	float* numbers = (float*)malloc(3*sizeof(float));
+	double* numbers = (double*)malloc(3*sizeof(double));
 	memset(tmp,0,sizeof(tmp));
 
 	do{
 		if(line_chr == ' '){
-			sscanf(tmp,"%f",&numbers[parse_state]);
+			sscanf(tmp,"%lf",&numbers[parse_state]);
 			parse_state++;
 			index = 0;
 			memset(tmp,0,sizeof(tmp));
@@ -48,17 +45,17 @@ float* parse_line(FILE* mtx_file,char read_ch){
 		line_chr = fgetc(mtx_file);
 	}while(line_chr != EOF && line_chr != '\n');
 
-	sscanf(tmp,"%f",&numbers[parse_state]);
+	sscanf(tmp,"%lf",&numbers[parse_state]);
 	return numbers; 
 }
 
-char parse_header(SpVM* out_spvm,FILE* mtx_file){
+void parse_header(SpVM* out_spvm,FILE* mtx_file){
 	char iter_ch;
 
 	for(iter_ch = fgetc(mtx_file); iter_ch == '%'; iter_ch = fgetc(mtx_file))
 		skip_line(mtx_file);
 
-	float* dim_info = parse_line(mtx_file,iter_ch);
+	double* dim_info = parse_line(mtx_file,iter_ch);
 
 	out_spvm->tot_rows = (uint32_t)dim_info[0];
 	out_spvm->tot_cols = (uint32_t)dim_info[1];
@@ -66,7 +63,6 @@ char parse_header(SpVM* out_spvm,FILE* mtx_file){
 
 	free(dim_info);
 
-	return iter_ch;
 }
 
 SpVM import_spvm(char* mtx_name){
@@ -75,18 +71,17 @@ SpVM import_spvm(char* mtx_name){
 	SpVM out;
 
 	//parse header, then return next character
-	char read_ch = parse_header(&out,mtx_file);
+	parse_header(&out,mtx_file);
 
 	for(size_t line=0; line<out.dim; line++){
-		float* tmp_res = parse_line(mtx_file,read_ch);
+		char read_ch = fgetc(mtx_file);
+		double* tmp_res = parse_line(mtx_file,read_ch);
 		if(line < MAX_LINES){
 			out.row[line] = (uint32_t)tmp_res[0];
 			out.col[line] = (uint32_t)tmp_res[1];
 
 			out.value[line] = tmp_res[2];
 		}
-
-		read_ch = fgetc(mtx_file);
 		free(tmp_res);
 	}
 

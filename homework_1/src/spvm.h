@@ -9,18 +9,20 @@
 #define PRINT(msg) fprintf(stdout,msg);
 #define CHR_MAX 4096
 #define MAX_LINES 10000 
+#define MIN(n1,n2) n1 > n2 ? n2 : n1;
 
 typedef struct{
 	uint32_t row[MAX_LINES];
 	uint32_t col[MAX_LINES];
-	float value[MAX_LINES];
+	double value[MAX_LINES];
 
 	uint32_t dim;
 	uint32_t tot_rows;
 	uint32_t tot_cols;
 }SpVM;
 
-float retrieve_spvm_cell(SpVM input_spvm, size_t sel_row,size_t sel_col);
-float* coo_mult(SpVM input_spvm,float* input_vec);
+void sort(SpVM* input_spvm);
+void get_csr_repr(SpVM* input_spvm);
+double* csr_mult(SpVM input_spvm,double* input_vec);
 
 #endif

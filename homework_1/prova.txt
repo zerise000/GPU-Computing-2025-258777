@@ -1,0 +1,389 @@
+element (0,1) has value 304.000000
+element (1,1) has value 304.000000
+element (1,2) has value 304.000000
+element (2,2) has value 304.000000
+element (2,3) has value 304.000000
+element (3,3) has value 304.000000
+element (3,4) has value 304.000000
+element (4,4) has value 304.000000
+element (4,5) has value 304.000000
+element (5,1) has value 304.000000
+element (5,6) has value 304.000000
+element (6,1) has value 304.000000
+element (6,6) has value 304.000000
+element (6,7) has value 304.000000
+element (7,1) has value 304.000000
+element (7,2) has value 304.000000
+element (7,7) has value 304.000000
+element (7,8) has value 304.000000
+element (8,2) has value 304.000000
+element (8,8) has value 304.000000
+element (8,9) has value 304.000000
+element (9,2) has value 304.000000
+element (9,3) has value 304.000000
+element (9,4) has value 304.000000
+element (9,9) has value 304.000000
+element (9,10) has value 304.000000
+element (10,4) has value 304.000000
+element (10,9) has value 304.000000
+element (10,10) has value 304.000000
+element (10,11) has value 304.000000
+element (11,4) has value 304.000000
+element (11,5) has value 304.000000
+element (11,11) has value 304.000000
+element (11,12) has value 304.000000
+element (12,6) has value 304.000000
+element (12,13) has value 304.000000
+element (13,6) has value 304.000000
+element (13,7) has value 304.000000
+element (13,14) has value 304.000000
+element (14,7) has value 304.000000
+element (14,14) has value 304.000000
+element (14,15) has value 304.000000
+element (15,7) has value 304.000000
+element (15,8) has value 304.000000
+element (15,15) has value 304.000000
+element (15,16) has value 304.000000
+element (16,15) has value 304.000000
+element (16,16) has value 304.000000
+element (16,17) has value 304.000000
+element (17,8) has value 304.000000
+element (17,9) has value 304.000000
+element (17,16) has value 304.000000
+element (17,17) has value 304.000000
+element (17,18) has value 304.000000
+element (18,9) has value 304.000000
+element (18,18) has value 304.000000
+element (18,19) has value 304.000000
+element (19,9) has value 304.000000
+element (19,11) has value 304.000000
+element (19,19) has value 304.000000
+element (19,20) has value 304.000000
+element (20,11) has value 304.000000
+element (20,20) has value 304.000000
+element (20,21) has value 304.000000
+element (21,11) has value 304.000000
+element (21,12) has value 304.000000
+element (21,21) has value 304.000000
+element (21,22) has value 304.000000
+element (22,5) has value 304.000000
+element (22,12) has value 304.000000
+element (22,22) has value 304.000000
+element (22,23) has value 304.000000
+element (23,21) has value 304.000000
+element (23,22) has value 304.000000
+element (23,23) has value 304.000000
+element (23,24) has value 304.000000
+element (24,21) has value 304.000000
+element (24,24) has value 304.000000
+element (24,25) has value 304.000000
+element (25,21) has value 304.000000
+element (25,25) has value 304.000000
+element (25,26) has value 304.000000
+element (26,19) has value 304.000000
+element (26,20) has value 304.000000
+element (26,21) has value 304.000000
+element (26,26) has value 304.000000
+element (26,27) has value 304.000000
+element (27,18) has value 304.000000
+element (27,19) has value 304.000000
+element (27,27) has value 304.000000
+element (27,28) has value 304.000000
+element (28,17) has value 304.000000
+element (28,18) has value 304.000000
+element (28,28) has value 304.000000
+element (28,29) has value 304.000000
+element (29,17) has value 304.000000
+element (29,29) has value 304.000000
+element (29,30) has value 304.000000
+element (30,15) has value 304.000000
+element (30,17) has value 304.000000
+element (30,30) has value 304.000000
+element (30,31) has value 304.000000
+element (31,23) has value 304.000000
+element (31,24) has value 304.000000
+element (31,32) has value 304.000000
+element (32,24) has value 304.000000
+element (32,32) has value 304.000000
+element (32,33) has value 304.000000
+element (33,24) has value 304.000000
+element (33,25) has value 304.000000
+element (33,26) has value 304.000000
+element (33,33) has value 304.000000
+element (33,34) has value 304.000000
+element (34,34) has value 304.000000
+element (34,35) has value 304.000000
+element (35,26) has value 304.000000
+element (35,34) has value 304.000000
+element (35,35) has value 304.000000
+element (35,36) has value 304.000000
+element (36,26) has value 304.000000
+element (36,27) has value 304.000000
+element (36,36) has value 304.000000
+element (36,37) has value 304.000000
+element (37,35) has value 304.000000
+element (37,36) has value 304.000000
+element (37,37) has value 304.000000
+element (37,38) has value 304.000000
+element (38,27) has value 304.000000
+element (38,28) has value 304.000000
+element (38,29) has value 304.000000
+element (38,37) has value 304.000000
+element (38,38) has value 304.000000
+element (38,39) has value 304.000000
+element (39,29) has value 304.000000
+element (39,30) has value 304.000000
+element (39,39) has value 304.000000
+element (39,40) has value 304.000000
+element (40,39) has value 304.000000
+element (40,40) has value 304.000000
+element (40,41) has value 304.000000
+element (41,30) has value 304.000000
+element (41,40) has value 304.000000
+element (41,42) has value 304.000000
+element (42,30) has value 304.000000
+element (42,31) has value 304.000000
+element (42,42) has value 304.000000
+element (42,43) has value 304.000000
+element (43,13) has value 304.000000
+element (43,44) has value 304.000000
+element (44,6) has value 304.000000
+element (44,13) has value 304.000000
+element (44,14) has value 304.000000
+element (44,44) has value 304.000000
+element (44,45) has value 304.000000
+element (45,14) has value 304.000000
+element (45,45) has value 304.000000
+element (45,46) has value 304.000000
+element (46,14) has value 304.000000
+element (46,15) has value 304.000000
+element (46,46) has value 304.000000
+element (46,47) has value 304.000000
+element (47,15) has value 304.000000
+element (47,31) has value 304.000000
+element (47,47) has value 304.000000
+element (47,48) has value 304.000000
+element (48,31) has value 304.000000
+element (48,43) has value 304.000000
+element (48,48) has value 304.000000
+element (48,49) has value 304.000000
+element (49,42) has value 304.000000
+element (49,43) has value 304.000000
+element (49,50) has value 304.000000
+element (50,43) has value 304.000000
+element (50,49) has value 304.000000
+element (50,50) has value 304.000000
+element (50,51) has value 304.000000
+element (51,44) has value 304.000000
+element (51,45) has value 304.000000
+element (51,52) has value 304.000000
+element (52,44) has value 304.000000
+element (52,53) has value 304.000000
+element (53,44) has value 304.000000
+element (53,52) has value 304.000000
+element (53,53) has value 304.000000
+element (53,54) has value 304.000000
+element (54,53) has value 304.000000
+element (54,54) has value 304.000000
+element (54,55) has value 304.000000
+element (55,54) has value 304.000000
+element (55,55) has value 304.000000
+element (55,56) has value 304.000000
+element (56,45) has value 304.000000
+element (56,46) has value 304.000000
+element (56,52) has value 304.000000
+element (56,57) has value 304.000000
+element (57,46) has value 304.000000
+element (57,47) has value 304.000000
+element (57,48) has value 304.000000
+element (57,57) has value 304.000000
+element (57,58) has value 304.000000
+element (58,48) has value 304.000000
+element (58,49) has value 304.000000
+element (58,58) has value 304.000000
+element (58,59) has value 304.000000
+element (59,49) has value 304.000000
+element (59,51) has value 304.000000
+element (59,59) has value 304.000000
+element (59,60) has value 304.000000
+element (60,51) has value 304.000000
+element (60,59) has value 304.000000
+element (60,60) has value 304.000000
+element (60,61) has value 304.000000
+element (61,61) has value 304.000000
+element (61,62) has value 304.000000
+element (62,33) has value 304.000000
+element (62,63) has value 304.000000
+element (63,32) has value 304.000000
+element (63,33) has value 304.000000
+element (63,34) has value 304.000000
+element (63,63) has value 304.000000
+element (63,64) has value 304.000000
+element (64,34) has value 304.000000
+element (64,35) has value 304.000000
+element (64,64) has value 304.000000
+element (64,65) has value 304.000000
+element (65,35) has value 304.000000
+element (65,38) has value 304.000000
+element (65,65) has value 304.000000
+element (65,66) has value 304.000000
+element (66,38) has value 304.000000
+element (66,66) has value 304.000000
+element (66,67) has value 304.000000
+element (67,67) has value 304.000000
+element (67,68) has value 304.000000
+element (68,38) has value 304.000000
+element (68,39) has value 304.000000
+element (68,67) has value 304.000000
+element (68,68) has value 304.000000
+element (68,69) has value 304.000000
+element (69,39) has value 304.000000
+element (69,41) has value 304.000000
+element (69,69) has value 304.000000
+element (69,70) has value 304.000000
+element (70,40) has value 304.000000
+element (70,41) has value 304.000000
+element (70,42) has value 304.000000
+element (70,70) has value 304.000000
+element (70,71) has value 304.000000
+element (71,42) has value 304.000000
+element (71,50) has value 304.000000
+element (71,71) has value 304.000000
+element (71,72) has value 304.000000
+element (72,50) has value 304.000000
+element (72,51) has value 304.000000
+element (72,61) has value 304.000000
+element (72,62) has value 304.000000
+element (72,72) has value 304.000000
+element (72,73) has value 304.000000
+element (73,62) has value 304.000000
+element (73,73) has value 304.000000
+element (73,74) has value 304.000000
+element (74,74) has value 304.000000
+element (74,75) has value 304.000000
+element (75,61) has value 304.000000
+element (75,62) has value 304.000000
+element (75,74) has value 304.000000
+element (75,75) has value 304.000000
+element (75,76) has value 304.000000
+element (76,76) has value 304.000000
+element (76,77) has value 304.000000
+element (77,61) has value 304.000000
+element (77,62) has value 304.000000
+element (77,76) has value 304.000000
+element (77,77) has value 304.000000
+element (77,78) has value 304.000000
+element (78,59) has value 304.000000
+element (78,61) has value 304.000000
+element (78,78) has value 304.000000
+element (78,79) has value 304.000000
+element (79,57) has value 304.000000
+element (79,58) has value 304.000000
+element (79,59) has value 304.000000
+element (79,79) has value 304.000000
+element (79,80) has value 304.000000
+element (80,52) has value 304.000000
+element (80,54) has value 304.000000
+element (80,56) has value 304.000000
+element (80,57) has value 304.000000
+element (80,80) has value 304.000000
+element (80,81) has value 304.000000
+element (81,56) has value 304.000000
+element (81,81) has value 304.000000
+element (81,82) has value 304.000000
+element (82,55) has value 304.000000
+element (82,56) has value 304.000000
+element (82,82) has value 304.000000
+element (82,83) has value 304.000000
+element (83,55) has value 304.000000
+element (83,83) has value 304.000000
+element (83,84) has value 304.000000
+element (84,53) has value 304.000000
+element (84,55) has value 304.000000
+element (84,84) has value 304.000000
+element (84,85) has value 304.000000
+434770.994642
+684424.118301
+503340.223130
+444497.941045
+485207.041519
+926473.275020
+1301993.134971
+1100728.747344
+847115.941651
+1471573.904171
+1149318.063466
+766218.980595
+1082192.993623
+1233942.209550
+823987.989690
+797910.461887
+504402.011838
+1276527.828051
+1299745.510453
+1402877.641079
+799911.645353
+796299.669771
+580751.225101
+901479.140687
+734131.076886
+728150.795724
+1553260.986426
+1291549.168637
+1087345.361322
+972248.956358
+840783.588011
+551693.206508
+592560.111575
+1094045.127559
+735517.110854
+1450991.344695
+1157455.372351
+1189823.187801
+1761507.828326
+1548593.647307
+1043718.158552
+782947.227291
+1008392.157234
+917558.714817
+2203341.584248
+1187341.007979
+860654.322280
+776347.906251
+1028857.907908
+877734.985164
+979381.517702
+1236468.454773
+907569.452708
+1621733.085359
+961348.299698
+980427.704403
+1803487.506440
+1790967.060610
+1280613.888413
+754832.596326
+943680.629082
+717025.060704
+549434.331569
+1477035.209852
+1376121.743187
+883227.029973
+490870.276084
+742282.683718
+1622875.618498
+1202559.700781
+842226.093789
+696205.861297
+1510866.825539
+1084081.912680
+768563.594520
+2074811.601100
+810197.300588
+1878997.793357
+1474662.763895
+1983637.823030
+2326574.563395
+892933.613955
+928984.919921
+507267.973808
+951083.659764
