@@ -52,7 +52,7 @@ void get_csr_repr(SpM* input_spm){
 
 	uint32_t tmp[dim_tmp];
 	tmp[0] = 0;
-
+	
 	for(size_t elem = 0; elem < dim; elem++){
 		for(size_t row = input_spm->row[elem]; row < input_spm->row[elem+1]; row++){ 
 			tmp[row] = elem+1;	
