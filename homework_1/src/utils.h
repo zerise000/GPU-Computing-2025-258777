@@ -2,6 +2,7 @@
 #define __UTILS_H__
 
 #define CHR_MAX 4096
+#define TIME_INTERVAL(start,end) ((end.tv_sec-start.tv_sec)*1e6+(end.tv_usec-start.tv_usec));
 
 #include "spmv.h"
 
