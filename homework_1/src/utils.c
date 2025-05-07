@@ -26,14 +26,14 @@ double* parse_line(FILE* mtx_file,char read_ch){
 	uint32_t parse_state = 0;
 	char tmp[CHR_MAX];
 	double* numbers = (double*)malloc(3*sizeof(double));
-	memset(tmp,0,sizeof(tmp));
+	memset(tmp,0,CHR_MAX);
 
 	do{
 		if(line_chr == ' '){
 			sscanf(tmp,"%lf",&numbers[parse_state]);
 			parse_state++;
 			index = 0;
-			memset(tmp,0,sizeof(tmp));
+			memset(tmp,0,CHR_MAX);
 			line_chr = fgetc(mtx_file);
 		}
 
@@ -73,15 +73,17 @@ SpM import_spm(char* mtx_name){
 	//parse header, then return next character
 	parse_header(&out,mtx_file);
 
-	for(size_t line=0; line<out.dim; line++){
+	for(size_t elem=0; elem<out.dim; elem++){
 		char read_ch = fgetc(mtx_file);
 		double* tmp_res = parse_line(mtx_file,read_ch);
-		if(line < MAX_LINES){
-			out.row[line] = (uint32_t)tmp_res[0];
-			out.col[line] = (uint32_t)tmp_res[1];
 
-			out.value[line] = tmp_res[2];
+		if(elem < MAX_ELEM){
+			out.row[elem] = (uint32_t)tmp_res[0];
+			out.col[elem] = (uint32_t)tmp_res[1];
+
+			out.value[elem] = tmp_res[2];
 		}
+
 		free(tmp_res);
 	}
 

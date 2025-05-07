@@ -21,5 +21,6 @@ int main(int argc,char** argv){
 
 	free(res2);
 	free(input_vec);
+
 	return 0;
 }

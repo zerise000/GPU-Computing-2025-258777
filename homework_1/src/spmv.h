@@ -7,14 +7,13 @@
 #include <stdint.h>
 
 #define PRINT(msg) fprintf(stdout,msg);
-#define CHR_MAX 4096
-#define MAX_LINES 10000 
+#define MAX_ELEM 100000 
 #define MIN(n1,n2) n1 > n2 ? n2 : n1;
 
 typedef struct{
-	uint32_t row[MAX_LINES];
-	uint32_t col[MAX_LINES];
-	double value[MAX_LINES];
+	uint32_t row[MAX_ELEM];
+	uint32_t col[MAX_ELEM];
+	double value[MAX_ELEM];
 
 	uint32_t dim;
 	uint32_t tot_rows;

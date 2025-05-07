@@ -1,6 +1,8 @@
 #ifndef __UTILS_H__
 #define __UTILS_H__
 
+#define CHR_MAX 4096
+
 #include "spmv.h"
 
 double* gen_random_vec(uint32_t dim);
