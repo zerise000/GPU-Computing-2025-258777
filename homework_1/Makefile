@@ -1,13 +1,21 @@
 CC=gcc
-SRC=src
-OUT=SpMV
+NVCC=nvcc
 WFLAGS=-Wall -Wextra -Wpedantic -g
 DLL=-lm
 
-all: $(OUT)
+SRC=src
+SRC_SERIAL=$(SRC)/serial
+SRC_CUDA=$(SRC)/cuda
+OUT_SERIAL=SpMV_serial
+OUT_CUDA=SpMV_cuda
 
-$(OUT):$(SRC)/*.c
-	$(CC) $(WFLAGS) $^ -o $@ $(DLL)
+all: serial cuda
+
+serial:$(SRC_SERIAL)/*.c
+	$(CC) $(WFLAGS) $^ -o $(OUT_SERIAL) $(DLL)
+
+cuda:$(SRC_CUDA)/*.c
+	$(NVCC) $(WFLAGS) $^ -o $(OUT_CUDA) $(DLL)
 
 .PHONY clean:
 	@rm $(OUT)
