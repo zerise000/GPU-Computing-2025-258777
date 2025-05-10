@@ -1,0 +1,171 @@
+#include "spmv.h"
+
+void merge(SpM* input_spm,size_t start,size_t mid,size_t end){
+
+	uint32_t left = mid-start+1;
+	uint32_t right = end-mid;
+	
+	uint32_t row_left[left];
+	uint32_t col_left[left];
+	float value_left[left];
+
+	uint32_t row_right[right];
+	uint32_t col_right[right];
+	float value_right[right];
+
+
+	for(size_t i=0; i<left; i++){
+		row_left[i] = input_spm->row[i+left];
+		col_left[i] = input_spm->col[i+left];
+		value_left[i] = input_spm->value[i+left];
+	}
+
+
+	for(size_t i=0; i<right; i++){
+		row_right[i] = input_spm->row[i+mid+1];
+		col_right[i] = input_spm->col[i+mid+1];
+		value_right[i] = input_spm->value[i+mid+1];
+	}
+	
+
+	size_t left_elem=0;
+	size_t right_elem=0;
+	size_t pos = left;
+
+	while(left_elem < left && right_elem < right){
+		uint8_t condition = (row_left[left_elem] > row_right[right_elem]) ||
+												(row_left[left_elem] == row_right[right_elem] && 
+												 col_left[left_elem] > col_right[right_elem]);
+		if(condition){
+			input_spm->row[pos] = row_left[left_elem]; 
+			input_spm->col[pos] = col_left[left_elem]; 
+			input_spm->value[pos] = value_left[left_elem]; 
+
+			left_elem++;
+		}else{
+			input_spm->row[pos] = row_right[right_elem]; 
+			input_spm->col[pos] = col_right[right_elem]; 
+			input_spm->value[pos] = value_right[right_elem]; 
+
+			right_elem++;
+		}
+
+		pos++;
+	}
+
+
+	while (left_elem < left) {
+		input_spm->row[pos] = row_left[left_elem]; 
+		input_spm->col[pos] = col_left[left_elem]; 
+		input_spm->value[pos] = value_left[left_elem]; 
+
+		left_elem++;
+		pos++;
+  }
+    
+	// Copy remaining elements of arr2[] if any
+	while (right_elem < right) {
+		input_spm->row[pos] = row_right[right_elem]; 
+		input_spm->col[pos] = col_right[right_elem]; 
+		input_spm->value[pos] = value_right[right_elem]; 
+
+		right_elem++;
+		pos++;
+	}
+
+}
+
+
+void sort(SpM* input_spm){
+
+	uint32_t dim = input_spm->dim;
+	/*
+	size_t min_index;
+
+	uint32_t cur_row;
+	uint32_t cur_col;
+
+	uint32_t tmp_col;
+	uint32_t tmp_row;
+	double tmp_val;
+
+	for(size_t elem = 0; elem < dim; elem++){
+
+		min_index = elem;
+		cur_row = input_spm->row[elem];
+		cur_col = input_spm->col[elem];
+
+		for(size_t other = elem; other < dim; other++){
+				uint8_t condition = (cur_row > input_spm->row[other]) ||
+												(cur_row == input_spm->row[other] && 
+												 cur_col > input_spm->col[other]);
+
+			if(condition){
+				cur_row = input_spm->row[other]; 
+				cur_col = input_spm->col[other]; 
+				min_index = other;
+			}
+		}
+
+		tmp_row = input_spm->row[elem];
+		tmp_col = input_spm->col[elem];
+		tmp_val = input_spm->value[elem];
+		
+		input_spm->row[elem] = input_spm->row[min_index];
+		input_spm->col[elem] = input_spm->col[min_index];
+		input_spm->value[elem] = input_spm->value[min_index];
+
+		input_spm->row[min_index] = tmp_row;
+		input_spm->col[min_index] = tmp_col;
+		input_spm->value[min_index] = tmp_val;
+	}
+	*/
+
+	for(size_t i=2; i < dim; i *= 2){
+		for(size_t j=0; j < dim; j += i){
+
+			uint32_t end = MIN(dim,j+i);
+			uint32_t start = j;
+			uint32_t mid = (end-start)>>1;
+
+			printf("%d %d %d\n",start,mid,end);
+			merge(input_spm,start,mid,end);
+		}
+	}
+
+	for(size_t i=0; i<dim; i++)
+		printf("%d %d %f\n",input_spm->row[i],input_spm->col[i],input_spm->value[i]);
+}
+
+void get_csr_repr(SpM* input_spm){
+
+	sort(input_spm);
+	uint32_t dim_tmp = input_spm->tot_rows+1;
+	uint32_t dim = input_spm->dim;
+
+	uint32_t tmp[dim_tmp];
+	tmp[0] = 0;
+	
+	for(size_t elem = 0; elem < dim; elem++){
+		for(size_t row = input_spm->row[elem]; row < input_spm->row[elem+1]; row++){ 
+			tmp[row] = elem+1;	
+		}
+	}
+
+	tmp[dim_tmp-1] = dim;
+	memcpy(input_spm->row,tmp,dim_tmp*sizeof(uint32_t));
+}
+
+
+double* csr_mult(SpM input_spm,double* input_vec){
+	uint32_t tot_rows = input_spm.tot_rows;
+	double* res = (double*)malloc(tot_rows*sizeof(double));
+
+	for(size_t row = 0; row < tot_rows; row++){
+		for(size_t elem = input_spm.row[row]; elem < input_spm.row[row+1]; elem++){
+			res[row] += input_spm.value[elem]*input_vec[input_spm.col[elem]];
+		}
+	}
+
+	return res;
+}

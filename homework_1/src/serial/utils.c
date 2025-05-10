@@ -1,28 +1,5 @@
 #include "utils.h"
 
-void warm_up(){
-
-	// define identity matrix
-	SpM tmp_spm;
-	tmp_spm.dim = (1 << 5);
-	tmp_spm.tot_rows = (1 << 5);
-	tmp_spm.tot_cols = (1 << 5);
-
-	for(size_t i=0; i<tmp_spm.tot_rows; i++){
-		tmp_spm.row[i] = i+1;
-		tmp_spm.col[i] = i+1;
-		tmp_spm.value[i] = 1;
-	}
-
-	
-	double* tmp_vec = gen_random_vec(tmp_spm.tot_cols);
-	get_csr_repr(&tmp_spm);	
-	double* tmp_res = csr_mult(tmp_spm,tmp_vec); 
-
-	free(tmp_vec);
-	free(tmp_res);
-}
-
 
 double* gen_random_vec(uint32_t dim){
   double* vec = (double*)malloc(dim*sizeof(double));

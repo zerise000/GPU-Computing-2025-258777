@@ -1,52 +1,80 @@
 #include "spmv.h"
 
+void merge(SpM* input_spm,size_t start,size_t mid,size_t end,size_t dim,uint32_t* tmp_row,uint32_t* tmp_col,double* tmp_value){
+
+		size_t k = start;
+		size_t left_pos = start;
+		size_t right_pos = mid + 1;
+
+    while (left_pos <= mid && right_pos <= end) {
+				uint8_t condition = input_spm->row[left_pos] < input_spm->row[right_pos] || 
+														(input_spm->row[left_pos] == input_spm->row[right_pos] && 
+														 input_spm->col[left_pos] < input_spm->col[right_pos]);
+        if (condition) {
+					
+					tmp_row[k] = input_spm->row[left_pos];
+					tmp_col[k] = input_spm->col[left_pos];
+					tmp_value[k] = input_spm->value[left_pos];
+				
+					left_pos++;
+        }
+        else {
+					
+					tmp_row[k] = input_spm->row[right_pos];
+					tmp_col[k] = input_spm->col[right_pos];
+					tmp_value[k] = input_spm->value[right_pos];
+
+					right_pos++;
+        }
+
+				k++;
+    }
+ 
+    while (left_pos < dim && left_pos <= mid) {
+
+        tmp_row[k] = input_spm->row[left_pos];
+				tmp_col[k] = input_spm->col[left_pos];
+				tmp_value[k] = input_spm->value[left_pos];
+
+				k++;
+				left_pos++;
+    }
+
+    for (size_t i = start; i <= end; i++) {
+			input_spm->row[i] = tmp_row[i];
+			input_spm->col[i]= tmp_col[i];
+			input_spm->value[i] = tmp_value[i];
+    }
+}
+
 void sort(SpM* input_spm){
 
 	uint32_t dim = input_spm->dim;
-	size_t min_index;
+	uint32_t tmp_row[dim];
+	uint32_t tmp_col[dim];
+	double tmp_value[dim];
 
-	uint32_t cur_row;
-	uint32_t cur_col;
+	memcpy(tmp_row,input_spm->row,dim*sizeof(uint32_t));
+	memcpy(tmp_col,input_spm->col,dim*sizeof(uint32_t));
+	memcpy(tmp_value,input_spm->value,dim*sizeof(double));
 
-	uint32_t tmp_col;
-	uint32_t tmp_row;
-	double tmp_val;
+	for(size_t i=1; i <= dim-1; i *= 2){
+		for(size_t j=0; j < dim-1; j += 2*i){
 
-	for(size_t elem = 0; elem < dim; elem++){
+			uint32_t mid = j+i-1;
+			uint32_t start = j;
+			uint32_t end = MIN(j+2*i-1,dim-1); 
 
-		min_index = elem;
-		cur_row = input_spm->row[elem];
-		cur_col = input_spm->col[elem];
-
-		for(size_t other = elem; other < dim; other++){
-				uint8_t condition = (cur_row > input_spm->row[other]) ||
-												(cur_row == input_spm->row[other] && 
-												 cur_col > input_spm->col[other]);
-
-			if(condition){
-				cur_row = input_spm->row[other]; 
-				cur_col = input_spm->col[other]; 
-				min_index = other;
-			}
+			merge(input_spm,start,mid,end,dim,tmp_row,tmp_col,tmp_value);
 		}
-
-		tmp_row = input_spm->row[elem];
-		tmp_col = input_spm->col[elem];
-		tmp_val = input_spm->value[elem];
-		
-		input_spm->row[elem] = input_spm->row[min_index];
-		input_spm->col[elem] = input_spm->col[min_index];
-		input_spm->value[elem] = input_spm->value[min_index];
-
-		input_spm->row[min_index] = tmp_row;
-		input_spm->col[min_index] = tmp_col;
-		input_spm->value[min_index] = tmp_val;
 	}
+
 }
 
 void get_csr_repr(SpM* input_spm){
 
 	sort(input_spm);
+	
 	uint32_t dim_tmp = input_spm->tot_rows+1;
 	uint32_t dim = input_spm->dim;
 
