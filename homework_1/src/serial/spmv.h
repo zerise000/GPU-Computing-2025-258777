@@ -21,7 +21,7 @@ typedef struct{
 }SpM;
 
 
-void merge(SpM* input_spm,size_t start,size_t mid,size_t end,size_t dim,uint32_t* tmp_row,uint32_t* tmp_col,double* tmp_value);
+void merge(SpM* input_spm,size_t start,size_t mid,size_t end);
 void sort(SpM* input_spm);
 void get_csr_repr(SpM* input_spm);
 double* csr_mult(SpM input_spm,double* input_vec);

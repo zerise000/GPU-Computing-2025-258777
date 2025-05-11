@@ -20,9 +20,9 @@ int main(int argc,char** argv){
 
 	char* mtx_name = argv[1];
 
-	for(int run = -3; run < NR_RUNS; run++){ 
+	for(int run = -NR_RUNS; run < NR_RUNS; run++){ 
 
-		if(run < 0){
+		if(run >= 0){
 			//import sparse matrix and calculate elapsed time
 			gettimeofday(&start,(struct timezone*)0);
 
