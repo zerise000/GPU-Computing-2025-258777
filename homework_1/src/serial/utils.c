@@ -58,9 +58,14 @@ void parse_header(SpM* out_spm,FILE* mtx_file){
 
 	double* dim_info = parse_line(mtx_file,iter_ch);
 
+
 	out_spm->tot_rows = (uint32_t)dim_info[0];
 	out_spm->tot_cols = (uint32_t)dim_info[1];
 	out_spm->dim = (uint32_t)dim_info[2];
+
+	out_spm->row = (uint32_t*)malloc(out_spm->dim*sizeof(uint32_t));
+	out_spm->col = (uint32_t*)malloc(out_spm->dim*sizeof(uint32_t));
+	out_spm->value = (double*)malloc(out_spm->dim*sizeof(double));
 
 	free(dim_info);
 
@@ -78,12 +83,10 @@ SpM import_spm(char* mtx_name){
 		char read_ch = fgetc(mtx_file);
 		double* tmp_res = parse_line(mtx_file,read_ch);
 
-		if(elem < MAX_ELEM){
-			out.row[elem] = (uint32_t)tmp_res[0];
-			out.col[elem] = (uint32_t)tmp_res[1];
+		out.row[elem] = (uint32_t)tmp_res[0];
+		out.col[elem] = (uint32_t)tmp_res[1];
 
-			out.value[elem] = tmp_res[2];
-		}
+		out.value[elem] = tmp_res[2];
 
 		free(tmp_res);
 	}

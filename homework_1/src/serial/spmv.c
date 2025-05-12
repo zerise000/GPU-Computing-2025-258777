@@ -95,10 +95,16 @@ void sort(SpM* input_spm){
 	}
 }
 
+void free_spm(SpM* input_spm){
+	free(input_spm->row);
+	free(input_spm->col);
+	free(input_spm->value);
+}
+
 void get_csr_repr(SpM* input_spm){
 
 	sort(input_spm);
-	
+
 	uint32_t dim_tmp = input_spm->tot_rows+1;
 	uint32_t dim = input_spm->dim;
 

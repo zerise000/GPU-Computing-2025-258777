@@ -1,6 +1,6 @@
 CC=gcc
 NVCC=nvcc
-WFLAGS=-Wall -Wextra -Wpedantic -g
+WFLAGS=-Wall -Wextra -Wpedantic -g -O2
 DLL=-lm
 
 SRC=src

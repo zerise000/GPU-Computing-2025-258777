@@ -1,46 +1,97 @@
 #include "spmv.h"
 
+void merge(SpM* input_spm,size_t start,size_t mid,size_t end){
+
+	uint32_t left_size = mid-start+1;
+	uint32_t right_size = end-mid;
+
+
+	uint32_t row_left[left_size];
+	uint32_t col_left[left_size];
+	double value_left[left_size];
+
+	uint32_t row_right[right_size];
+	uint32_t col_right[right_size];
+	double value_right[right_size];
+
+
+	for(size_t i=0; i<left_size; i++){
+		row_left[i] = input_spm->row[start+i];
+		col_left[i] = input_spm->col[start+i];
+		value_left[i] = input_spm->value[start+i];
+	}
+
+	for(size_t i=0; i<right_size; i++){
+		row_right[i] = input_spm->row[i+mid+1];
+		col_right[i] = input_spm->col[i+mid+1];
+		value_right[i] = input_spm->value[i+mid+1];
+	}
+
+	uint32_t index_left = 0;
+	uint32_t index_right = 0;
+	uint32_t pos = start;
+
+
+	while(index_left < left_size && index_right < right_size){
+		uint8_t condition = (row_left[index_left] < row_right[index_right] || 
+												(row_left[index_left] == row_right[index_right] && 
+												 col_left[index_left] < col_right[index_right]));
+		if(condition){
+
+			input_spm->row[pos] = row_left[index_left];
+			input_spm->col[pos] = col_left[index_left];
+			input_spm->value[pos] = value_left[index_left];
+
+			index_left++;
+
+		}else{
+
+			input_spm->row[pos] = row_right[index_right];
+			input_spm->col[pos] = col_right[index_right];
+			input_spm->value[pos] = value_right[index_right];
+
+			index_right++;
+
+		}
+
+		pos++;
+	}
+
+
+	while(index_left < left_size){
+		input_spm->row[pos] = row_left[index_left];
+		input_spm->col[pos] = col_left[index_left];
+		input_spm->value[pos] = value_left[index_left];
+
+		index_left++;
+		pos++;
+	}
+
+
+	while(index_right < right_size){
+
+		input_spm->row[pos] = row_right[index_right];
+		input_spm->col[pos] = col_right[index_right];
+		input_spm->value[pos] = value_right[index_right];
+
+		index_right++;
+		pos++;
+	}
+}
+
 void sort(SpM* input_spm){
 
 	uint32_t dim = input_spm->dim;
-	size_t min_index;
 
-	uint32_t cur_row;
-	uint32_t cur_col;
+	for(size_t i=1; i <= dim-1; i *= 2){
+		for(size_t j=0; j < dim-1; j += 2*i){
 
-	uint32_t tmp_col;
-	uint32_t tmp_row;
-	double tmp_val;
+			uint32_t mid = MIN(dim-1,j+i-1);
+			uint32_t start = j;
+			uint32_t end = MIN(j+2*i-1,dim-1); 
 
-	for(size_t elem = 0; elem < dim; elem++){
-
-		min_index = elem;
-		cur_row = input_spm->row[elem];
-		cur_col = input_spm->col[elem];
-
-		for(size_t other = elem; other < dim; other++){
-				uint8_t condition = (cur_row > input_spm->row[other]) ||
-												(cur_row == input_spm->row[other] && 
-												 cur_col > input_spm->col[other]);
-
-			if(condition){
-				cur_row = input_spm->row[other]; 
-				cur_col = input_spm->col[other]; 
-				min_index = other;
-			}
+			merge(input_spm,start,mid,end);
 		}
-
-		tmp_row = input_spm->row[elem];
-		tmp_col = input_spm->col[elem];
-		tmp_val = input_spm->value[elem];
-		
-		input_spm->row[elem] = input_spm->row[min_index];
-		input_spm->col[elem] = input_spm->col[min_index];
-		input_spm->value[elem] = input_spm->value[min_index];
-
-		input_spm->row[min_index] = tmp_row;
-		input_spm->col[min_index] = tmp_col;
-		input_spm->value[min_index] = tmp_val;
 	}
 }
 

@@ -1,28 +1,5 @@
 #include "utils.h"
 
-void warm_up(){
-
-	// define identity matrix
-	SpM tmp_spm;
-	tmp_spm.dim = (1 << 5);
-	tmp_spm.tot_rows = (1 << 5);
-	tmp_spm.tot_cols = (1 << 5);
-
-	for(size_t i=0; i<tmp_spm.tot_rows; i++){
-		tmp_spm.row[i] = i+1;
-		tmp_spm.col[i] = i+1;
-		tmp_spm.value[i] = 1;
-	}
-
-	
-	double* tmp_vec = gen_random_vec(tmp_spm.tot_cols);
-	get_csr_repr(&tmp_spm);	
-	double* tmp_res = csr_mult(tmp_spm,tmp_vec); 
-
-	free(tmp_vec);
-	free(tmp_res);
-}
-
 
 double* gen_random_vec(uint32_t dim){
   double* vec = (double*)malloc(dim*sizeof(double));
@@ -81,9 +58,14 @@ void parse_header(SpM* out_spm,FILE* mtx_file){
 
 	double* dim_info = parse_line(mtx_file,iter_ch);
 
+
 	out_spm->tot_rows = (uint32_t)dim_info[0];
 	out_spm->tot_cols = (uint32_t)dim_info[1];
 	out_spm->dim = (uint32_t)dim_info[2];
+
+	out_spm->row = (uint32_t*)malloc(out_spm->dim*sizeof(uint32_t));
+	out_spm->col = (uint32_t*)malloc(out_spm->dim*sizeof(uint32_t));
+	out_spm->value = (double*)malloc(out_spm->dim*sizeof(double));
 
 	free(dim_info);
 
@@ -101,12 +83,10 @@ SpM import_spm(char* mtx_name){
 		char read_ch = fgetc(mtx_file);
 		double* tmp_res = parse_line(mtx_file,read_ch);
 
-		if(elem < MAX_ELEM){
-			out.row[elem] = (uint32_t)tmp_res[0];
-			out.col[elem] = (uint32_t)tmp_res[1];
+		out.row[elem] = (uint32_t)tmp_res[0];
+		out.col[elem] = (uint32_t)tmp_res[1];
 
-			out.value[elem] = tmp_res[2];
-		}
+		out.value[elem] = tmp_res[2];
 
 		free(tmp_res);
 	}

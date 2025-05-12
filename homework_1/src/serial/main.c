@@ -22,24 +22,26 @@ int main(int argc,char** argv){
 
 	for(int run = -NR_RUNS; run < NR_RUNS; run++){ 
 
-		if(run >= 0){
-			//import sparse matrix and calculate elapsed time
-			gettimeofday(&start,(struct timezone*)0);
+		SpM input_spm = import_spm(mtx_name);
 
-			SpM input_spm = import_spm(mtx_name);
+		//start chronometer
+		gettimeofday(&start,(struct timezone*)0);
 
-			double* input_vec = gen_random_vec(input_spm.tot_cols);
-			get_csr_repr(&input_spm);	
-			double* res2 = csr_mult(input_spm,input_vec); 
-			
-			gettimeofday(&end,(struct timezone*)0);
+		double* input_vec = gen_random_vec(input_spm.tot_cols);
+		get_csr_repr(&input_spm);	
+		double* res2 = csr_mult(input_spm,input_vec); 
+		
+		//stop chronometer
+		gettimeofday(&end,(struct timezone*)0);
 
-			// update cumulated variables
+		// update cumulated variables
+		if(run >= 0)
 			total_time *= TIME_INTERVAL(start,end)
 
-			free(res2);
-			free(input_vec);
-		}
+		free(res2);
+		free(input_vec);
+
+		free_spm(&input_spm);
 	}
 
 	double total_mean = pow(total_time,1.0/NR_RUNS);
