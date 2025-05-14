@@ -23,6 +23,6 @@ typedef struct{
 void merge(SpM* input_spm,size_t start,size_t mid,size_t end);
 void sort(SpM* input_spm);
 void get_csr_repr(SpM* input_spm);
-double* csr_mult(SpM input_spm,double* input_vec);
+__global__ void csr_mult(SpM input_spm,double* input_vec,double* out_res);
 
 #endif

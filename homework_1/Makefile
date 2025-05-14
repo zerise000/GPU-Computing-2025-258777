@@ -14,8 +14,8 @@ all: serial cuda
 serial:$(SRC_SERIAL)/*.c
 	$(CC) $(WFLAGS) $^ -o $(OUT_SERIAL) $(DLL)
 
-cuda:$(SRC_CUDA)/*.c
-	$(NVCC) $(WFLAGS) $^ -o $(OUT_CUDA) $(DLL)
+cuda:$(SRC_CUDA)/*.cu
+	$(NVCC) $^ -o $(OUT_CUDA) $(DLL)
 
 .PHONY clean:
 	@rm $(OUT)

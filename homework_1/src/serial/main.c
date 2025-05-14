@@ -47,7 +47,7 @@ int main(int argc,char** argv){
 	double total_mean = pow(total_time,1.0/NR_RUNS);
 
 	//calculate geometric mean and display time results
-	fprintf(stdout,"total elapsed time: %f\n",total_mean);
+	fprintf(stdout,"%s, total elapsed time: %f\n",mtx_name,total_mean);
 
 	return 0;
 }

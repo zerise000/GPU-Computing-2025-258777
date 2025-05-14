@@ -98,22 +98,24 @@ void sort(SpM* input_spm){
 void get_csr_repr(SpM* input_spm){
 
 	sort(input_spm);
+
 	uint32_t dim_tmp = input_spm->tot_rows+1;
 	uint32_t dim = input_spm->dim;
 
 	uint32_t tmp[dim_tmp];
 	tmp[0] = 0;
 	
-	for(size_t elem = 0; elem < dim; elem++){
-		for(size_t row = input_spm->row[elem]; row < input_spm->row[elem+1]; row++){ 
+	for(size_t elem = 0; elem < dim-1; elem++){
+		for(size_t row = input_spm->row[elem]; row <= input_spm->row[elem+1]; row++){ 
 			tmp[row] = elem+1;	
 		}
 	}
 
+	tmp[dim_tmp-2]++; 
 	tmp[dim_tmp-1] = dim;
+
 	memcpy(input_spm->row,tmp,dim_tmp*sizeof(uint32_t));
 }
-
 
 __global__ void csr_mult(SpM input_spm,double* input_vec,double* out_res){
 
