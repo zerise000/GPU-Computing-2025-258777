@@ -6,7 +6,7 @@
 
 #include "spmv.h"
 
-double* gen_random_vec(uint32_t dim);
+__global__ void gen_random_vec(double* vec,double seed,uint32_t dim);
 
 void parse_header(SpM* out_spm,FILE* mtx_file);
 void skip_line(FILE* mtx_file);

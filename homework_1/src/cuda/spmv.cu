@@ -117,17 +117,20 @@ void get_csr_repr(SpM* input_spm){
 	memcpy(input_spm->row,tmp,dim_tmp*sizeof(uint32_t));
 }
 
-__global__ void csr_mult(SpM input_spm,double* input_vec,double* out_res){
+void free_spm(SpM* input_spm){
+	free(input_spm->row);
+	free(input_spm->col);
+	free(input_spm->value);
+}
 
-	uint32_t tot_rows = input_spm.tot_rows;
+
+__global__ void csr_mult(uint32_t tot_rows,uint32_t* rows,uint32_t* cols,double* values,double* input_vec,double* out_res){
 
 	uint32_t start = blockIdx.x*blockDim.x + threadIdx.x;
-	uint32_t stride = blockDim.x*gridDim.x;
+	uint32_t stride = blockDim.x * gridDim.x;
 
 	for(size_t row = start; row < tot_rows; row+=stride){
-		for(size_t elem = input_spm.row[row]; elem < input_spm.row[row+1]; elem++){
-			out_res[row] += input_spm.value[elem]*input_vec[input_spm.col[elem]];
-		}
+		for(size_t elem = rows[row]; elem < rows[row+1]; elem++)
+			out_res[start] += values[elem]*input_vec[cols[elem]];
 	}
-
 }

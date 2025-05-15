@@ -1,14 +1,15 @@
 #include "utils.h"
 
 
-double* gen_random_vec(uint32_t dim){
-  double* vec = (double*)malloc(dim*sizeof(double));
+__global__ void gen_random_vec(double* vec,double seed,uint32_t dim){
 
-  for(size_t i = 0; i < dim; i++){
-    vec[i] = 2000*((double)rand()/(double)RAND_MAX);
+	uint32_t start = blockDim.x*blockIdx.x + threadIdx.x;
+	uint32_t stride = blockDim.x * gridDim.x;
+
+  for(size_t i = start; i < dim; i+=stride){
+    vec[i] = seed*dim-i;
   }
   
-  return vec;
 }
 
 void skip_line(FILE* mtx_file){
@@ -64,7 +65,7 @@ void parse_header(SpM* out_spm,FILE* mtx_file){
 	out_spm->dim = (uint32_t)dim_info[2];
 
 	out_spm->row = (uint32_t*)malloc(out_spm->dim*sizeof(uint32_t));
-	out_spm->col = (uint32_t*)malloc(out_spm->dim*sizeof(uint32_t));
+	out_spm->col= (uint32_t*)malloc(out_spm->dim*sizeof(uint32_t));
 	out_spm->value = (double*)malloc(out_spm->dim*sizeof(double));
 
 	free(dim_info);
