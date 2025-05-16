@@ -5,6 +5,53 @@
 
 #define NR_RUNS 5
 
+float dev_getInput_vec(float blocks_ratio,uint32_t dim_vec,double* input_vec,double seed){
+	float elapsed_time = 0;
+	cudaEvent_t start;
+	cudaEvent_t stop;
+
+	cudaEventCreate(&start);
+	cudaEventCreate(&stop);
+	cudaEventRecord(start);
+	uint32_t nr_blocks = dim_vec*blocks_ratio;
+	uint32_t block_dim = dim_vec/nr_blocks;
+
+	gen_random_vec<<<nr_blocks,block_dim>>>(input_vec,seed,dim_vec);
+
+	cudaEventRecord(stop);
+	cudaEventSynchronize(stop);
+	cudaEventElapsedTime(&elapsed_time,start,stop);
+
+	cudaEventDestroy(start);
+	cudaEventDestroy(stop);
+
+	return elapsed_time*1e3;
+}
+
+float dev_csr_mult(float blocks_ratio, uint32_t nr_rows,uint32_t* kernel_rows,uint32_t* kernel_cols, double* kernel_values, double* input_vec,double* res){
+
+	cudaEvent_t kernel_start;
+	cudaEvent_t kernel_end;
+	float mult_time = 0;
+	uint32_t nr_blocks = nr_rows*blocks_ratio;
+	uint32_t block_dim = nr_rows/nr_blocks;
+
+	cudaEventCreate(&kernel_start);
+	cudaEventCreate(&kernel_end);
+
+	cudaEventRecord(kernel_start);
+	csr_mult<<<nr_blocks,block_dim>>>(nr_rows,kernel_rows,kernel_cols,kernel_values,input_vec,res); 
+	cudaEventRecord(kernel_end);
+	cudaEventSynchronize(kernel_end);
+
+	cudaEventElapsedTime(&mult_time,kernel_start,kernel_end); 
+
+	cudaEventDestroy(kernel_start);
+	cudaEventDestroy(kernel_end);
+
+	return mult_time * 1e3;
+}
+
 void alloc_dev_buffs(SpM input_spm,uint32_t** kernel_rows,uint32_t** kernel_cols,double** kernel_values){
 	cudaMalloc((void**)kernel_rows,(input_spm.tot_rows+1)*sizeof(uint32_t));
 	cudaMalloc((void**)kernel_cols,input_spm.dim*sizeof(uint32_t));
@@ -29,80 +76,46 @@ int main(int argc,char** argv){
 	double total_time = 1.0;
 	double host_time= 1.0;
 	double device_time = 1.0;
+	float blocks_ratio = 0.7;
 
-	float kernel_time;
 	char* mtx_name = argv[1];
-
-	uint16_t nr_blocks = 512;
-	uint16_t block_dim;
 
 	uint32_t* kernel_rows;
 	uint32_t* kernel_cols;
 	double* kernel_values;
 
-	cudaEvent_t kernel_start;
-	cudaEvent_t kernel_end;
-	kernel_time = 0;
-
-	cudaEvent_t r_start;
-	cudaEvent_t r_stop;
-	float r_time = 0;
+	double* input_vec;
+	double* res;
 
 	for(int run = -NR_RUNS; run < NR_RUNS; run++){ 
 
-		//import sparse matrix and calculate elapsed time
+		//host code
 		gettimeofday(&start,(struct timezone*)0);
 
 		SpM input_spm = import_spm(mtx_name);
 		get_csr_repr(&input_spm);	
 		double seed = (double)rand()*((double)RAND_MAX/2.0);
 
-		gettimeofday(&end,(struct timezone*)0);
-
-		block_dim = input_spm.tot_rows / nr_blocks;
-
-		double* input_vec;
 		cudaMallocManaged(&input_vec,input_spm.tot_cols*sizeof(double));
-
-		cudaEventCreate(&r_start);
-		cudaEventCreate(&r_stop);
-		cudaEventRecord(r_start);
-
-		gen_random_vec<<<nr_blocks,block_dim>>>(input_vec,seed,input_spm.tot_cols);
-
-		cudaEventRecord(r_stop);
-		cudaEventSynchronize(r_stop);
-		cudaEventElapsedTime(&r_time,r_start,r_stop);
-		r_time *= 1e3;
-		
-		//since structs with dynamic allocated arrays are not allowed
-		//it is necessary to copy the arrays of the sparse matrix
+		cudaMallocManaged(&res,input_spm.tot_rows*sizeof(double));
+	
+		//since struct arrays are stored in host memory,copy to device memory
 		alloc_dev_buffs(input_spm,&kernel_rows,&kernel_cols,&kernel_values);	
 
-		cudaEventCreate(&kernel_start);
-		cudaEventCreate(&kernel_end);
+		gettimeofday(&end,(struct timezone*)0);
 
-		double* res;
-		cudaMallocManaged(&res,input_spm.tot_rows*sizeof(double));
-
-
-		cudaEventRecord(kernel_start);
-		csr_mult<<<nr_blocks,block_dim>>>(input_spm.tot_rows,kernel_rows,kernel_cols,kernel_values,input_vec,res); 
-		cudaEventRecord(kernel_end);
-		cudaEventSynchronize(kernel_end);
-
-		cudaEventElapsedTime(&kernel_time,kernel_start,kernel_end); 
-		kernel_time *= 1e3;
+		//exec GPU kernels and retrieve time execution
+		float tmp_dev_time = dev_getInput_vec(blocks_ratio,input_spm.tot_cols,input_vec,seed);
+		tmp_dev_time += dev_csr_mult(blocks_ratio,input_spm.tot_rows,kernel_rows,kernel_cols,kernel_values,input_vec,res);
+	
 
 		// update cumulated variables
 		if(run >= 0){
-			total_time *= r_time+kernel_time+TIME_INTERVAL(start,end)
+			total_time *= tmp_dev_time+TIME_INTERVAL(start,end)
 			host_time *= TIME_INTERVAL(start,end)
-			device_time *= (kernel_time+r_time);
+			device_time *= tmp_dev_time;
 		}
 
-		cudaEventDestroy(kernel_start);
-		cudaEventDestroy(kernel_end);
 
 		cudaFree(kernel_rows);
 		cudaFree(kernel_cols);
