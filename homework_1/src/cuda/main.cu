@@ -77,6 +77,7 @@ int main(int argc,char** argv){
 	double host_time= 1.0;
 	double device_time = 1.0;
 	float blocks_ratio = 0.7;
+	uint32_t nr_rows;
 
 	char* mtx_name = argv[1];
 
@@ -93,6 +94,7 @@ int main(int argc,char** argv){
 		gettimeofday(&start,(struct timezone*)0);
 
 		SpM input_spm = import_spm(mtx_name);
+		nr_rows = input_spm.tot_rows;
 		get_csr_repr(&input_spm);	
 		double seed = (double)rand()*((double)RAND_MAX/2.0);
 
@@ -106,7 +108,7 @@ int main(int argc,char** argv){
 
 		//exec GPU kernels and retrieve time execution
 		float tmp_dev_time = dev_getInput_vec(blocks_ratio,input_spm.tot_cols,input_vec,seed);
-		tmp_dev_time += dev_csr_mult(blocks_ratio,input_spm.tot_rows,kernel_rows,kernel_cols,kernel_values,input_vec,res);
+		tmp_dev_time += dev_csr_mult(blocks_ratio,nr_rows,kernel_rows,kernel_cols,kernel_values,input_vec,res);
 	
 
 		// update cumulated variables
@@ -122,8 +124,15 @@ int main(int argc,char** argv){
 		cudaFree(kernel_values);
 		cudaFree(res);
 		free_spm(&input_spm);
-		cudaFree(input_vec);
+
+		if(run < NR_RUNS-1)
+			cudaFree(input_vec);
 	}
+
+	//print multiplication result
+	for(size_t cell = 0; cell < nr_rows; cell++)
+		fprintf(stdout,"%f\n",input_vec[cell]);
+	cudaFree(input_vec);
 
 	//calculate geometric mean and display time results
 	double total_mean = pow(total_time,1.0/NR_RUNS);

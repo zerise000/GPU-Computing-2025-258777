@@ -5,7 +5,7 @@ double* gen_random_vec(uint32_t dim){
   double* vec = (double*)malloc(dim*sizeof(double));
 
   for(size_t i = 0; i < dim; i++){
-    vec[i] = 2000*((double)rand()/(double)RAND_MAX);
+    vec[i] = ((double)RAND_MAX/2.0)*(double)rand();
   }
   
   return vec;
